@@ -3,8 +3,9 @@
 #include <assert.h>
 using namespace std;
 
-#include "TimeCode.h"
 
+#include "TimeCode.h"
+#include "TimeCode.cpp"
 
 void TestComponentsToSeconds(){
 	cout << "Testing ComponentsToSeconds" << endl;
