@@ -7,12 +7,6 @@
 using namespace std;
 
 TimeCode:: TimeCode(unsigned int hr = 0, unsigned int min = 0, long long unsigned int sec = 0){
-   
-    if (hr< 0 || min < 0 || sec < 0){
-        // wasn't sure if to use a try and catch but this wesite helped
-        //https://stackoverflow.com/questions/8480640/how-to-throw-a-c-exception
-        throw std::invalid_argument ("Your time cannot be negative");
-    }
     // Thinking about roll overs and how to convert things
     // if sec >=60 change it to mins. If mins >=60 cohnage it to hrs.
     if (sec >= 60){
@@ -34,7 +28,7 @@ void TimeCode::GetComponents(unsigned int& hr, unsigned int& min, unsigned int& 
     sec = (t % 60);
 }
 
-   static long long unsigned int ComponentsToSeconds(unsigned int hr, unsigned int min, unsigned long long int sec){
+ long long unsigned int TimeCode ::ComponentsToSeconds(unsigned int hr, unsigned int min, unsigned long long int sec){
         // converting to sec
 
      return (hr * 3600) + (min * 60) + sec;
@@ -56,15 +50,66 @@ void TimeCode::GetComponents(unsigned int& hr, unsigned int& min, unsigned int& 
     long long unsigned int new_time;
 
     new_time = t + other.t;
-    return new_time;
+    return TimeCode(0, 0, new_time);
 
    }
 
    TimeCode TimeCode :: operator-(const TimeCode& other) const{
+    // first have to deal with negative value/ negative times
+    if (t < other.t ){
+        throw invalid_argument("This will result in a negative time");
+    }
     long long unsigned int new_time;
 
     new_time = t - other.t;
-    return new_time;
+    return TimeCode(0,0, new_time);
 
    }
 
+   TimeCode TimeCode::operator* (double a) const{
+    // Another exception would be if there is a negative number. Well it works for normal 
+    // math numbers, but for time, we can't even have -time so lets take care of that
+
+    if (t < 0 || a < 0 ){
+        throw invalid_argument("This will result in a negative time");
+    }
+         double muliple_time;
+         muliple_time = t * a;
+
+          return TimeCode (0,0, muliple_time);
+   }
+   TimeCode TimeCode :: operator/ (double a)const{
+
+    // for one you can divide by a negative
+
+    if (a<=0 ){
+        throw invalid_argument("You can't divide by a negaive number");
+
+    }
+    double divided_number;
+    divided_number = t/a;
+
+        return TimeCode (0,0,divided_number);
+   }
+
+   // My bool functions and their implementations
+
+   
+
+
+
+
+
+
+
+//    int main() {
+//     TimeCode t1(1, 70, 90);  
+//     // Output should be (2:11:30)
+//     cout << "t1: " << t1.ToString() << endl;
+
+//     TimeCode t2(0, 61, 0);  
+//     // Output should be (1:1:0)
+//     cout << "t2: " << t2.ToString() << endl;
+
+//     return 0;
+// }
