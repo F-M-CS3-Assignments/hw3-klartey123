@@ -9,13 +9,34 @@ using namespace std;
 
 void TestComponentsToSeconds(){
 	cout << "Testing ComponentsToSeconds" << endl;
-	
-	// Random but "safe" inputs
-	long long unsigned int t = TimeCode::ComponentsToSeconds(3, 17, 42);
+		// Random but "safe" inputs
+
+	// impliments t once because c++ causes an error when it is muliple dclariarion which is redifinition
+	long long unsigned int t;
+	t = TimeCode::ComponentsToSeconds(3, 17, 42);
 	assert(t == 11862);
-	
-	// More tests go here!
-	
+
+	 t = TimeCode:: ComponentsToSeconds(1,1,0);
+	assert (t == 3660);
+
+	 t = TimeCode :: ComponentsToSeconds(1,0,0);
+	assert (t == 3600);
+//Larger values
+	 t = TimeCode:: ComponentsToSeconds(1000, 0,0);
+	assert (t== 3600000);
+
+	t = TimeCode :: ComponentsToSeconds(9999, 60, 60);
+	assert(t == 36000060);
+// zero values
+
+
+	t = TimeCode:: ComponentsToSeconds(0,0,0);
+	assert (t == 0);
+// negative values
+// also not working
+ 	// t = TimeCode :: ComponentsToSeconds(-1, 0, 0);
+	// assert(t == 0);
+
 	cout << "PASSED!" << endl << endl;
 }
 
@@ -39,6 +60,8 @@ void TestComponentConstructor(){
 	//cout << "tc: " << tc.ToString() << endl;
 	assert(tc.ToString() == "0:0:0");
 	
+
+
 	// more tests go here!
 	
 	// Roll-over inputs
@@ -117,7 +140,77 @@ void TestSetMinutes()
 
 	cout << "PASSED!" << endl << endl;
 }
+// Reset 
+void TestReset() {
+    cout << "Testing Reset" << endl;
 
+	// Safe inputs
+    TimeCode tc(5, 45, 30);  
+    tc.reset();  
+	// Should now be 0:0:0
+    assert(tc.ToString() == "0:0:0");  
+
+	// Dangerous inputs
+	// TimeCode tc(0,0,0);
+	// tc.reset();
+	// assert(tc.ToString() == "0:0:0");
+
+    cout << "PASSED!" << endl << endl;
+}
+
+void TestCopyConstructor() {
+    cout << "Testing my Copy constructor" << endl;
+
+    TimeCode t1(2, 30, 45);
+	// This should copy t1 into t2
+    TimeCode t2 = t1;  
+
+    assert(t1.ToString() == t2.ToString());  
+
+    cout << "PASSED!" << endl << endl;
+}
+// adding all the new times together
+void TestOperatorPlus() {
+    cout << "Testing operator+" << endl;
+
+    TimeCode t1(1, 30, 0);  
+    TimeCode t2(0, 30, 0);  
+    TimeCode t3 = t1 + t2;  
+
+    assert(t3.ToString() == "2:0:0");
+
+    cout << "PASSED!" << endl << endl;
+}
+void TestOperatorMultiply() {
+    cout << "Testing operator*" << endl;
+
+    TimeCode t1(1, 30, 0);  
+    TimeCode t2 = t1 * 2;  
+
+    assert(t2.ToString() == "3:0:0");
+}
+void TestOperatorDivide() {
+    cout << "Testing operator/" << endl;
+
+    TimeCode t1(2, 0, 0);  
+    TimeCode t2 = t1 / 2;  
+
+    assert(t2.ToString() == "1:0:0");
+}
+
+void TestComparisonOperators() {
+    cout << "Testing Comparison Operators" << endl;
+
+    TimeCode t1(1, 0, 0);
+    TimeCode t2(2, 0, 0);
+    TimeCode t3(1, 0, 0);
+
+    assert(t1 <= t2);  
+    assert(t2 >= t1);  
+    assert(t1 >= t3);  
+
+    cout << "PASSED!" << endl << endl;
+}
 
 // Many More Tests...
 
@@ -128,6 +221,13 @@ int main(){
 	TestDefaultConstructor();
 	TestComponentConstructor();
 	TestGetComponents();
+	TestReset();
+	TestComparisonOperators();
+	TestOperatorDivide();
+	TestOperatorMultiply();
+	TestOperatorPlus();
+	TestCopyConstructor();
+
 	
 	// Many othere test functions...
 	
