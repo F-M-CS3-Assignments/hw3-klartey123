@@ -1,6 +1,5 @@
 // Author; Kelvin Lartey
 
-
 #include <iostream>
 #include "TimeCode.h"
 
@@ -20,22 +19,22 @@ TimeCode::TimeCode(unsigned int hr, unsigned int min, long long unsigned int sec
         hr +=min/60;
         min = min%60;
     }
-        t = ComponentsToSeconds(hr, min, sec);   
-        
+        t = ComponentsToSeconds(hr, min, sec);         
 }
 
 // my copy functiuon;
-
 TimeCode::TimeCode(const TimeCode& tc) {
     this->t = tc.t;  
 }
 
-
+// This function will be converting the hr, min and secs. 
 void TimeCode::GetComponents(unsigned int& hr, unsigned int& min, unsigned int& sec) const {
     hr = t / 3600;
     min = (t % 3600) / 60;
     sec = (t % 60);
 }
+
+// Now we are setting the hours
 void TimeCode::SetHours(unsigned int hours) {
     unsigned int hr, min, sec;
     GetComponents(hr, min, sec); 
@@ -58,7 +57,7 @@ void TimeCode:: SetMinutes(unsigned int minutes){
 void TimeCode:: SetSeconds(unsigned int seconds){
     unsigned int hr, min, sec;
     // throw an exception for seconds that is higher than 59 minutes
-
+    GetComponents(hr, min, sec);
     if (seconds >= 60){
         throw invalid_argument("Seconds are less than 60.");
     }
@@ -87,10 +86,8 @@ void TimeCode::reset() {
     t = 0;  
 }
 
-
-
  long long unsigned int TimeCode ::ComponentsToSeconds(unsigned int hr, unsigned int min, unsigned long long int sec){
-        // converting to sec
+        // // convert hours, minutes, and seconds to t seconds. 
 
      return (hr * 3600) + (min * 60) + sec;
 
@@ -116,7 +113,7 @@ void TimeCode::reset() {
    }
 
    TimeCode TimeCode :: operator-(const TimeCode& other) const{
-    // first have to deal with negative value/ negative times
+    // first have to deal with negative value/ negative time
     if (t < other.t ){
         throw invalid_argument("This will result in a negative time");
     }
@@ -154,6 +151,7 @@ void TimeCode::reset() {
    }
 
    // My bool functions and their implementations
+   // This function is for when the times are the same
 
    bool TimeCode :: operator == (const TimeCode& other) const{
     if (this->t == other.t) {
@@ -162,7 +160,7 @@ void TimeCode::reset() {
     return false;
     
    }
-
+// Different times 
     bool TimeCode :: operator != (const TimeCode& other) const{
         
         if (this->t != other.t) {
@@ -170,7 +168,7 @@ void TimeCode::reset() {
         }
         return false;
     }
-
+// one time is less than the other time
     bool TimeCode :: operator < (const TimeCode& other) const{
         if (this -> t < other.t ){
             return true;
@@ -178,18 +176,22 @@ void TimeCode::reset() {
         return false;
     }
 
+    // Is the time less than or equal too
     bool TimeCode :: operator <= (const TimeCode& other) const{
         if (this -> t <= other.t ){
             return true;
         }
         return false;
     }
+
+    // is the time the greater than the other time
     bool TimeCode :: operator >(const TimeCode& other) const{
         if (this -> t > other.t ){
             return true;
         }
         return false;
     }
+    // is the time greater than or equal to. 
     bool TimeCode :: operator >= (const TimeCode& other) const{
         if (this -> t >= other.t ){
             return true;
@@ -197,24 +199,4 @@ void TimeCode::reset() {
         return false;
     }
         
-            
-    
-   
-
-
-
-
-
-
-
-//    int main() {
-//     TimeCode t1(1, 70, 90);  
-//     // Output should be (2:11:30)
-//     cout << "t1: " << t1.ToString() << endl;
-
-//     TimeCode t2(0, 61, 0);  
-//     // Output should be (1:1:0)
-//     cout << "t2: " << t2.ToString() << endl;
-
-//     return 0;
-// }
+        
