@@ -191,7 +191,7 @@ void TimeCode::reset() {
         }
         return false;
     }
-    // is the time greater than or equal to. 
+    // is the time greater than or equal to
     bool TimeCode :: operator >= (const TimeCode& other) const{
         if (this -> t >= other.t ){
             return true;

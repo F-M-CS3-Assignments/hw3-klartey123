@@ -68,7 +68,7 @@ void TestComponentConstructor(){
 	cout << "PASSED!" << endl << endl;
 }
 
-// Extracting each components such as hours, minutes and seconds.
+// Extracting each components such as hours, minutes and seconds
 void TestGetComponents(){
 	cout << "Testing GetComponents" << endl;
 	
