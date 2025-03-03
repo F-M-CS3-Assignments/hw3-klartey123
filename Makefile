@@ -1,7 +1,8 @@
 all: 
-	g++ -Wall TimeCodeTests.cpp -o tct
+	g++ -Wall NasaLaunchAnalysis.cpp -o nasa
 	
 run:
-	./tct
+	./nasa
+
 	
 try:all run
