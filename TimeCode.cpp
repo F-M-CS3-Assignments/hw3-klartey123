@@ -80,6 +80,12 @@ unsigned int TimeCode:: GetSeconds()const{
     return sec;
 }
 
+// forgot to add this function, now i am adding it to help my painter file
+long long unsigned int TimeCode::GetTimeCodeAsSeconds() const {
+    return t;
+}
+
+
 // my rest function, turns everything back to zero
 
 void TimeCode::reset() {

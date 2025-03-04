@@ -126,6 +126,6 @@ int main() {
     // Convert back because timecode does not accept t seconds. 
     TimeCode average_time(0, 0, average_seconds);
 
-    cout << "Average launch time: " << average_time.ToString() << endl;
+    cout << "Average: " << average_time.ToString() << endl;
     return 0;
 }

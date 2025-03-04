@@ -2,6 +2,7 @@
 #include <iostream>
 #include <assert.h>
 #include "TimeCode.h"
+#include "TimeCode.cpp"
 
 using namespace std;
 
@@ -96,7 +97,7 @@ void TestGetComponents(){
 }
 
 
-void TestGetTimeCodeAsSeconds(){
+void TestGetTImeCodeAsSeconds(){
 	cout << "Testing GetTimeCodeAsSeconds" << endl;
 	TimeCode tc = TimeCode(7, 16, 18);
 	long long unsigned int TotalSeconds = tc.GetTimeCodeAsSeconds();
@@ -403,7 +404,7 @@ int main(){
 	TestDefaultConstructor();
 	TestComponentConstructor();
 	TestGetComponents();
-	TestGetTimeCodeAsSeconds();
+	TestGetTImeCodeAsSeconds();
 	TestCopyConstructor();
 	
 	TestGetHours();
