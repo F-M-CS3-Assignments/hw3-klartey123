@@ -91,7 +91,7 @@ void tests(){
 	//cout << "tc: " << tc.GetTimeCodeAsSeconds() << endl;
 
 	//come back to this and fix it in the timecope.cpp
-	//assert(tc2->GetTimeCodeAsSeconds() == 1);
+	assert(tc2->GetTimeCodeAsSeconds() == 1);
 	delete tc2;
 
 
@@ -104,7 +104,7 @@ void tests(){
 
 
 int main(){
-	// replace with your code
-	//tests());
-	return 0;
+	
+	
+	
 }

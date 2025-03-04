@@ -22,7 +22,7 @@ class TimeCode{
         unsigned int GetSeconds()const;
 // changes the name from GetTImeCodeAsSeconds() to GetTimeCodeAsSeconds() the 'i' was
 // capitalized, it made it difficult not to make a mistake. 
-        long long unsigned int GetTimeCodeAsSeconds() const {return t;};
+        long long unsigned int GetTimeCodeAsSeconds() const; 
         void GetComponents (unsigned int& hr, unsigned int& min, unsigned int& sec) const;
         static long long unsigned int ComponentsToSeconds(unsigned int hr, unsigned int min, unsigned long long int sec);
 
