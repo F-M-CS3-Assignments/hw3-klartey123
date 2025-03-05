@@ -42,7 +42,6 @@ TimeCode parse_line(string line) {
 
     // okay so a traker is needed to stop it when it reaches a time when it is not true
     bool found_time = false;
-
     //using the find function ; https://cplusplus.com/reference/string/string/find/
     for (int i= 0; i < separate.size(); i++){
 
@@ -50,26 +49,27 @@ TimeCode parse_line(string line) {
         // use that to extract the time infront of it.
         if (separate[i].find("UTC") != string::npos){
             vector<string> timeParts = split(separate[i], ' ');
-
-            // To makr sure it has the time. 
-            if (timeParts.size() >= 2){
-                for (string colon : timeParts){
-                    if (colon.find (":") != string :: npos){
-                        time = colon; 
-                        found_time = true;
-                        break;
-                    } 
+            
+            for (int j = 0; j < timeParts.size(); j++) {
+                if (timeParts[j].find(":") != string::npos) {  
+                    time = timeParts[j];  
+                    found_time = true;
+                    break;
                 }
             }
-        }
+        }    
     }
+    
+    // When 000 are added it increases the size of the vector 
+    // meaning the total average is lower.
     if (!found_time || time.empty()) {
-        return TimeCode(0, 0, 0);  // When 000 are added it increases the size of the vector 
-        // meaning the total average is lower.
+        // Debugging purposes. 
+        //cout << "Skipped line: " << line << endl;
+        return TimeCode(0, 0, 0);  
+        
     }
-                
+        
     // convert the times to timecode. 
-               
     vector<string> separate_parts = split(time, ':');
     if (separate_parts.size() < 2) {
     // For cases when the time value is empty
@@ -95,15 +95,20 @@ int main() {
     }
 
     string line;
+    int skipped_zeroes = 0;
     while (getline(inFS, line)) {  
         TimeCode tc = parse_line(line);  
-        if (!(tc.GetHours() == 0 && tc.GetMinutes() == 0 && tc.GetSeconds() == 0)) {
-            my_time.push_back(tc);  
+        if (tc.GetHours() == 0 && tc.GetMinutes() == 0 && tc.GetSeconds() == 0) {
+            skipped_zeroes++;
         }
+        else{
+            my_time.push_back(tc);
+        }  
     }
-    
 
     inFS.close();  
+
+    //cout << "Skipped time values that were 00:00:00: " << skipped_zeroes << endl;
 
     if (my_time.empty()) {
         cout << "No valid launch times found. Cannot compute an average." << endl;
@@ -113,19 +118,18 @@ int main() {
     // Now to average my time out
     long long unsigned int total_time = 0;
     for (int i = 0; i < my_time.size(); i++) {
-        cout << my_time[i].ToString() << endl;  
         unsigned int hours = my_time[i].GetHours();
         unsigned int minutes = my_time[i].GetMinutes();
         unsigned int seconds = my_time[i].GetSeconds();
-
-       
 
         total_time += my_time[i].ComponentsToSeconds(hours, minutes, seconds);
     }
     long long unsigned int average_seconds = total_time / my_time.size();
     // Convert back because timecode does not accept t seconds. 
     TimeCode average_time(0, 0, average_seconds);
-
+    //cout << "Total time in seconds: " << total_time << endl;
+    //cout << "Number of valid data points: " << my_time.size() << endl;
+    cout << my_time.size() << " data points." << endl;
     cout << "Average: " << average_time.ToString() << endl;
     return 0;
 }
