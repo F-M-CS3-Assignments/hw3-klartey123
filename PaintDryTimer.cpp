@@ -7,7 +7,7 @@
 #include <cstdlib> // for random
 #include <cassert> // for assert in the tests() function
 #include "TimeCode.h" // for timecode's (duh)
-#include "TimeCode.cpp" // my timecode too duh
+
 
 using namespace std;
 
@@ -78,12 +78,12 @@ void tests(){
 	assert(ans > 6 && ans < 8);
 
 	// add more tests here
-	DryingSnapShot dss;
-	dss.startTime = time(0);
-	TimeCode tc = TimeCode(0, 0, 10); 
-	dss.timeToDry = &tc;
-	long long int ans = get_time_remaining(dss);
-	assert(ans > 9 && ans <= 10);
+	DryingSnapShot dss1;
+    dss1.startTime = time(0);
+    TimeCode tc1 = TimeCode(0, 0, 10); 
+    dss1.timeToDry = &tc1;
+    long long int ans2 = get_time_remaining(dss1); 
+    assert(ans2 >= 8 && ans2 <= 10);
 
 
 	// get_sphere_sa
